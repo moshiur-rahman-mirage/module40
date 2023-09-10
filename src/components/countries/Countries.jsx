@@ -6,6 +6,14 @@ import "./countries.css"
 const Countries = () => {
     // If our fetched data comes as array of object then useState will be empty array.
     const [countries, setCountries] = useState([]);
+    const [visitedCountries,setVisitedCountries]=useState([]);
+
+
+    const handleVisitedCountries=(counties)=>{
+        const newVisitedCountries=[...visitedCountries,counties];
+        setVisitedCountries(newVisitedCountries)
+        console.log(visitedCountries)
+    }
     useEffect(() => {
         fetch('https://restcountries.com/v3.1/all')
             .then(res => res.json())
@@ -16,14 +24,17 @@ const Countries = () => {
     return (
         <div>
             <h3>Countries Length {countries.length}</h3>
-            <h5>Visited Countries</h5>
+            <h5>Visited Countries {visitedCountries.length}</h5>
             <ul>
                 <li></li>
             </ul>
             <div className="country-container"> 
                 {
                     //    countries.map(country=><Country/>)
-                    countries.map((n) => <Country key={n.cca3} country={n} />)
+                    countries.map((n) => <Country 
+                    key={n.cca3} 
+                    handleVisitedCountries={handleVisitedCountries}
+                    country={n} />)
                 }
             </div>
         </div>
